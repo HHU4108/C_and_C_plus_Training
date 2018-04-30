@@ -1,0 +1,47 @@
+#include <stdio.h>
+/*struct ListNode {
+      int val;
+      struct ListNode *next;
+  };
+  */
+struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2) {
+     struct ListNode*l3,*p1,*p2,*tmp,*s;//l3用来存放最后的单链表，s是l3的工作指针，p1,p2是l1,l2的工作指针，tmp用来存放相加的结果。
+    int a,tmp1;//a用来存放相加结果产生的进位,tmp1存放进位的结果
+    l3=tmp=(struct ListNode*)malloc(sizeof(struct ListNode));
+    l3->next=NULL;
+    p1=l1;
+    p2=l2;
+    a=0;
+    while((p1!=NULL)||(p2!=NULL))
+    {
+        s=(struct ListNode*)malloc(sizeof(struct ListNode));
+        if((p1!=NULL)&&(p2!=NULL))//两个链表一样长
+             tmp1=p1->val+p2->val+a;
+         else if((p1!=NULL)&&(p2==NULL))//链表2长的情况
+             tmp1=p1->val+a;
+         else 
+             tmp1=p2->val+a;//链表1长的情况
+        s->val=tmp1%10;//s存放该位置相加的取值，去掉进位
+        s->next=tmp->next;
+        tmp->next=s;//尾插法建立单链表
+            tmp=s;
+        a=tmp1/10;//a存放进位数
+        if((p1!=NULL)&&(p2!=NULL))
+        {
+        p1=p1->next;
+        p2=p2->next;
+        }
+        else if(p1==NULL)
+            p2=p2->next;
+        else
+            p1=p1->next;
+    }
+    
+     if(a!=0){//如果最高位的进位不是0
+      s=(struct ListNode*)malloc(sizeof(struct ListNode));
+      s->val=a;
+      s->next=tmp->next;
+      tmp->next=s;
+} 
+return l3->next;//去掉头节点
+}
